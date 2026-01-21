@@ -12,8 +12,8 @@ import {
   Zoom,
   Chip,
 } from '@mui/material';
+import Image from 'next/image';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { MBTIResult } from '@/types';
 
 interface ResultScreenProps {
@@ -47,27 +47,58 @@ export default function ResultScreen({ result, onRestart }: ResultScreenProps) {
       <Container maxWidth="md">
         <Fade in={true} timeout={1000}>
           <Box sx={{ position: 'relative', zIndex: 1 }}>
-            {/* Trophy Icon */}
+            {/* Result Image */}
             <Box sx={{ textAlign: 'center', mb: 4 }}>
               <Grow in={true} timeout={1200}>
                 <Box
                   sx={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: 100,
-                    height: 100,
-                    borderRadius: '50%',
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    backdropFilter: 'blur(10px)',
-                    animation: 'bounce 2s ease-in-out infinite',
-                    '@keyframes bounce': {
-                      '0%, 100%': { transform: 'translateY(0)' },
-                      '50%': { transform: 'translateY(-10px)' },
+                    display: 'inline-block',
+                    position: 'relative',
+                    animation: 'float 3s ease-in-out infinite',
+                    '@keyframes float': {
+                      '0%, 100%': { transform: 'translateY(0px)' },
+                      '50%': { transform: 'translateY(-15px)' },
                     },
                   }}
                 >
-                  <EmojiEventsIcon sx={{ fontSize: 60, color: '#ffd700' }} />
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      width: { xs: 250, md: 350 },
+                      height: { xs: 250, md: 350 },
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        inset: -20,
+                        borderRadius: '50%',
+                        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 40%, transparent 70%)',
+                        filter: 'blur(15px)',
+                        zIndex: -1,
+                      },
+                      '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        inset: -10,
+                        borderRadius: '50%',
+                        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 50%, transparent 80%)',
+                        zIndex: -1,
+                      },
+                    }}
+                  >
+                    <Image
+                      src={`/results/${result.type}.png`}
+                      alt={`${result.type} - ${result.title}`}
+                      width={350}
+                      height={350}
+                      priority
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        filter: 'drop-shadow(0 10px 40px rgba(0, 0, 0, 0.3))',
+                      }}
+                    />
+                  </Box>
                 </Box>
               </Grow>
             </Box>
