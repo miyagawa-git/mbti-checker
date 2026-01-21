@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Box, Container, Typography, Button, Fade, Grow } from '@mui/material';
-import PsychologyIcon from '@mui/icons-material/Psychology';
+import Image from 'next/image';
 import QuestionScreen from './components/QuestionScreen';
 import ResultScreen from './components/ResultScreen';
 import { questions } from '@/data/questions';
@@ -103,11 +103,6 @@ export default function Home() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: 120,
-                  height: 120,
-                  borderRadius: '50%',
-                  background: 'rgba(255, 255, 255, 0.2)',
-                  backdropFilter: 'blur(10px)',
                   mb: 4,
                   animation: 'float 3s ease-in-out infinite',
                   '@keyframes float': {
@@ -116,7 +111,16 @@ export default function Home() {
                   },
                 }}
               >
-                <PsychologyIcon sx={{ fontSize: 80, color: 'white' }} />
+                <Image
+                  src="/logo.png"
+                  alt="MBTI診断ロゴ"
+                  width={300}
+                  height={300}
+                  priority
+                  style={{
+                    filter: 'drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3))',
+                  }}
+                />
               </Box>
             </Grow>
 
