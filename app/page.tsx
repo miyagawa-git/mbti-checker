@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Box, Container, Typography, Button, Fade, Grow } from '@mui/material';
-import Image from 'next/image';
-import QuestionScreen from './components/QuestionScreen';
-import ResultScreen from './components/ResultScreen';
-import { questions } from '@/data/questions';
-import { results } from '@/data/results';
-import { MBTIAxis, MBTIType } from '@/types';
+import { useState } from "react";
+import { Box, Container, Typography, Button, Fade, Grow } from "@mui/material";
+import Image from "next/image";
+import QuestionScreen from "./components/QuestionScreen";
+import ResultScreen from "./components/ResultScreen";
+import { questions } from "@/data/questions";
+import { results } from "@/data/results";
+import { MBTIAxis, MBTIType } from "@/types";
 
-type Screen = 'home' | 'quiz' | 'result';
+type Screen = "home" | "quiz" | "result";
 
 export default function Home() {
-  const [screen, setScreen] = useState<Screen>('home');
+  const [screen, setScreen] = useState<Screen>("home");
   const [answers, setAnswers] = useState<MBTIAxis[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [mbtiResult, setMbtiResult] = useState<MBTIType | null>(null);
 
   const handleStart = () => {
-    setScreen('quiz');
+    setScreen("quiz");
     setAnswers([]);
     setCurrentQuestion(0);
   };
@@ -33,22 +33,22 @@ export default function Home() {
       // 診断完了 - 結果を計算
       const result = calculateMBTI(newAnswers);
       setMbtiResult(result);
-      setScreen('result');
+      setScreen("result");
     }
   };
 
   const calculateMBTI = (answers: MBTIAxis[]): MBTIType => {
-    return answers.join('') as MBTIType;
+    return answers.join("") as MBTIType;
   };
 
   const handleRestart = () => {
-    setScreen('home');
+    setScreen("home");
     setAnswers([]);
     setCurrentQuestion(0);
     setMbtiResult(null);
   };
 
-  if (screen === 'quiz') {
+  if (screen === "quiz") {
     return (
       <QuestionScreen
         question={questions[currentQuestion]}
@@ -59,91 +59,89 @@ export default function Home() {
     );
   }
 
-  if (screen === 'result' && mbtiResult) {
+  if (screen === "result" && mbtiResult) {
     return (
-      <ResultScreen
-        result={results[mbtiResult]}
-        onRestart={handleRestart}
-      />
+      <ResultScreen result={results[mbtiResult]} onRestart={handleRestart} />
     );
   }
 
   return (
     <Box
       sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-        '&::before': {
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        overflow: "hidden",
+        "&::before": {
           content: '""',
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)',
-          animation: 'pulse 4s ease-in-out infinite',
+          background:
+            "radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)",
+          animation: "pulse 4s ease-in-out infinite",
         },
-        '@keyframes pulse': {
-          '0%, 100%': { opacity: 1 },
-          '50%': { opacity: 0.8 },
+        "@keyframes pulse": {
+          "0%, 100%": { opacity: 1 },
+          "50%": { opacity: 0.8 },
         },
       }}
     >
       <Container maxWidth="md">
         <Fade in={true} timeout={1000}>
-          <Box sx={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
+          <Box sx={{ textAlign: "center", position: "relative", zIndex: 1 }}>
+            <Typography
+              variant="h1"
+              sx={{
+                color: "white",
+                mb: 2,
+                fontWeight: 800,
+                textShadow: "0 2px 10px rgba(0,0,0,0.2)",
+                fontSize: { xs: "2.5rem", md: "3.5rem" },
+              }}
+            >
+              MBTI性格診断
+              <br />
+              withペンちゃん
+            </Typography>
             <Grow in={true} timeout={1200}>
               <Box
                 sx={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  mb: 4,
-                  animation: 'float 3s ease-in-out infinite',
-                  '@keyframes float': {
-                    '0%, 100%': { transform: 'translateY(0px)' },
-                    '50%': { transform: 'translateY(-20px)' },
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mb: 1,
+                  animation: "float 3s ease-in-out infinite",
+                  "@keyframes float": {
+                    "0%, 100%": { transform: "translateY(0px)" },
+                    "50%": { transform: "translateY(-20px)" },
                   },
                 }}
               >
                 <Image
                   src="/logo.png"
                   alt="MBTI診断ロゴ"
-                  width={300}
-                  height={300}
+                  width={350}
+                  height={150}
                   priority
                   style={{
-                    filter: 'drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3))',
+                    filter: "drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3))",
                   }}
                 />
               </Box>
             </Grow>
-
-            <Typography
-              variant="h1"
-              sx={{
-                color: 'white',
-                mb: 2,
-                fontWeight: 800,
-                textShadow: '0 2px 10px rgba(0,0,0,0.2)',
-                fontSize: { xs: '2.5rem', md: '3.5rem' },
-              }}
-            >
-              MBTI性格診断
-            </Typography>
-
             <Typography
               variant="h5"
               sx={{
-                color: 'rgba(255, 255, 255, 0.9)',
+                color: "rgba(255, 255, 255, 0.9)",
                 mb: 6,
                 fontWeight: 400,
-                textShadow: '0 1px 5px rgba(0,0,0,0.1)',
+                textShadow: "0 1px 5px rgba(0,0,0,0.1)",
               }}
             >
               4つの質問であなたの性格タイプを見つけよう
@@ -156,26 +154,24 @@ export default function Home() {
               sx={{
                 px: 6,
                 py: 2,
-                fontSize: '1.2rem',
+                fontSize: "1.2rem",
                 fontWeight: 600,
-                background: 'white',
-                color: '#667eea',
-                boxShadow: '0 8px 20px rgba(0,0,0,0.2)',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  background: 'white',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 12px 30px rgba(0,0,0,0.3)',
+                background: "white",
+                color: "#667eea",
+                boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  background: "white",
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 12px 30px rgba(0,0,0,0.3)",
                 },
               }}
             >
               診断を始める
             </Button>
 
-            <Box sx={{ mt: 6, color: 'rgba(255, 255, 255, 0.7)' }}>
-              <Typography variant="body1">
-                所要時間: 約1分
-              </Typography>
+            <Box sx={{ mt: 6, color: "rgba(255, 255, 255, 0.7)" }}>
+              <Typography variant="body1">所要時間: 約1分</Typography>
             </Box>
           </Box>
         </Fade>
